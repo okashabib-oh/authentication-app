@@ -7,7 +7,7 @@ const signup = async (req, res) => {
         const { name, email, password } = req.body;
         const user = await UserModel.findOne({ email: email });
         if (user) {
-            return res.staus(409).json({
+            return res.status(409).json({
                 message: "User already exists"
             })
         }
@@ -37,7 +37,7 @@ const login = async (req, res) => {
                 message: errMsg, success: false
             })
         }
-        const checkPassword = bcrypt.compare(password, user.password)
+        const checkPassword = await bcrypt.compare(password, user.password)
         if (!checkPassword) {
             return res.status(403).json({
                 message: errMsg, success: false
